@@ -43,10 +43,10 @@ export function SideBar({ sidebarCategoryId, onSidebarCategoryChange }: SideBarP
                 className={`sticky top-0 overflow-y-auto scrollbar-hidden pb-4 flex-col ml-1 hidden md:flex ${isLargeOpen ? "lg:hidden" : "lg:flex"
                     }`}
             >
-                <SmallSidebarItem Icon={Home} title="Home" onClick={() => onSidebarCategoryChange(0)} />
-                <SmallSidebarItem Icon={Repeat} title="Shorts" />
-                <SmallSidebarItem Icon={Clapperboard} title="Subscriptions" />
-                <SmallSidebarItem Icon={Library} title="Library" />
+                <SmallSidebarItem Icon={Home} title="Home" onNavigate={() => onSidebarCategoryChange(0)} />
+                <SmallSidebarItem Icon={Repeat} title="Shorts" onNavigate={() => onSidebarCategoryChange(sidebarCategoryId)} />
+                <SmallSidebarItem Icon={Clapperboard} title="Subscriptions" onNavigate={() => onSidebarCategoryChange(sidebarCategoryId)} />
+                <SmallSidebarItem Icon={Library} title="Library" onNavigate={() => onSidebarCategoryChange(sidebarCategoryId)} />
             </aside>
             {isSmallOpen && (
                 <div
@@ -62,20 +62,21 @@ export function SideBar({ sidebarCategoryId, onSidebarCategoryChange }: SideBarP
                     <PageHeaderFirstSection />
                 </div>
                 <LargeSidebarSection>
-                    <LargeSidebarItem isActive={sidebarCategoryId === 0} onClick={() => onSidebarCategoryChange(0)} IconOrImgUrl={Home} title="Home" />
-                    <LargeSidebarItem IconOrImgUrl={Clapperboard} title="Subscriptions" />
+                    <LargeSidebarItem isActive={sidebarCategoryId === 0} onNavigate={() => onSidebarCategoryChange(0)} IconOrImgUrl={Home} title="Home" />
+                    <LargeSidebarItem IconOrImgUrl={Clapperboard} title="Subscriptions" onNavigate={() => onSidebarCategoryChange(sidebarCategoryId)} />
                 </LargeSidebarSection>
                 <hr />
                 <LargeSidebarSection visibleItemCount={5}>
-                    <LargeSidebarItem IconOrImgUrl={Library} title="Library" />
-                    <LargeSidebarItem IconOrImgUrl={History} title="History" />
-                    <LargeSidebarItem IconOrImgUrl={PlaySquare} title="Your Videos" />
-                    <LargeSidebarItem IconOrImgUrl={Clock} title="Watch Later" />
+                    <LargeSidebarItem IconOrImgUrl={Library} title="Library" onNavigate={() => onSidebarCategoryChange(sidebarCategoryId)} />
+                    <LargeSidebarItem IconOrImgUrl={History} title="History" onNavigate={() => onSidebarCategoryChange(sidebarCategoryId)} />
+                    <LargeSidebarItem IconOrImgUrl={PlaySquare} title="Your Videos" onNavigate={() => onSidebarCategoryChange(sidebarCategoryId)} />
+                    <LargeSidebarItem IconOrImgUrl={Clock} title="Watch Later" onNavigate={() => onSidebarCategoryChange(sidebarCategoryId)} />
                     {playlists.map(playlist => (
                         <LargeSidebarItem
                             key={playlist.id}
                             IconOrImgUrl={ListVideo}
                             title={playlist.name}
+                            onNavigate={() => onSidebarCategoryChange(sidebarCategoryId)}
                         />
                     ))}
                 </LargeSidebarSection>
@@ -86,6 +87,7 @@ export function SideBar({ sidebarCategoryId, onSidebarCategoryChange }: SideBarP
                             key={subscription.id}
                             IconOrImgUrl={subscription.imgUrl}
                             title={subscription.channelName}
+                            onNavigate={() => onSidebarCategoryChange(sidebarCategoryId)}
                         />
                     ))}
                 </LargeSidebarSection>
@@ -93,35 +95,35 @@ export function SideBar({ sidebarCategoryId, onSidebarCategoryChange }: SideBarP
                 <LargeSidebarSection title="Explore">
                     <LargeSidebarItem
                         isActive={sidebarCategoryId === 12}
-                        onClick={() => onSidebarCategoryChange(12)}
+                        onNavigate={() => onSidebarCategoryChange(12)}
                         IconOrImgUrl={Flame}
                         title="Trending"
                     />
-                    <LargeSidebarItem IconOrImgUrl={ShoppingBag} title="Shopping" />
-                    <LargeSidebarItem isActive={sidebarCategoryId === 10} onClick={() => onSidebarCategoryChange(10)} IconOrImgUrl={Music2} title="Music" />
+                    <LargeSidebarItem IconOrImgUrl={ShoppingBag} title="Shopping" onNavigate={() => onSidebarCategoryChange(sidebarCategoryId)} />
+                    <LargeSidebarItem isActive={sidebarCategoryId === 10} onNavigate={() => onSidebarCategoryChange(10)} IconOrImgUrl={Music2} title="Music" />
                     <LargeSidebarItem
                         isActive={sidebarCategoryId === 24}
-                        onClick={() => onSidebarCategoryChange(24)}
+                        onNavigate={() => onSidebarCategoryChange(24)}
                         IconOrImgUrl={Film}
                         title="Movies & TV"
                     />
-                    <LargeSidebarItem IconOrImgUrl={Radio} title="Live" />
+                    <LargeSidebarItem IconOrImgUrl={Radio} title="Live" onNavigate={() => onSidebarCategoryChange(sidebarCategoryId)} />
                     <LargeSidebarItem
                         isActive={sidebarCategoryId === 20}
-                        onClick={() => onSidebarCategoryChange(20)}
+                        onNavigate={() => onSidebarCategoryChange(20)}
                         IconOrImgUrl={Gamepad2}
                         title="Gaming"
                     />
-                    <LargeSidebarItem isActive={sidebarCategoryId === 25} onClick={() => onSidebarCategoryChange(25)} IconOrImgUrl={Newspaper} title="News" />
+                    <LargeSidebarItem isActive={sidebarCategoryId === 25} onNavigate={() => onSidebarCategoryChange(25)} IconOrImgUrl={Newspaper} title="News" />
                     <LargeSidebarItem
                         isActive={sidebarCategoryId === 17}
-                        onClick={() => onSidebarCategoryChange(17)}
+                        onNavigate={() => onSidebarCategoryChange(17)}
                         IconOrImgUrl={Trophy}
                         title="Sports"
                     />
-                    <LargeSidebarItem IconOrImgUrl={Lightbulb} title="Learning" />
-                    <LargeSidebarItem IconOrImgUrl={Shirt} title="Fashion & Beauty" />
-                    <LargeSidebarItem IconOrImgUrl={Podcast} title="Podcasts" />
+                    <LargeSidebarItem IconOrImgUrl={Lightbulb} title="Learning" onNavigate={() => onSidebarCategoryChange(sidebarCategoryId)} />
+                    <LargeSidebarItem IconOrImgUrl={Shirt} title="Fashion & Beauty" onNavigate={() => onSidebarCategoryChange(sidebarCategoryId)} />
+                    <LargeSidebarItem IconOrImgUrl={Podcast} title="Podcasts" onNavigate={() => onSidebarCategoryChange(sidebarCategoryId)} />
                 </LargeSidebarSection>
             </aside>
         </>
@@ -131,14 +133,14 @@ export function SideBar({ sidebarCategoryId, onSidebarCategoryChange }: SideBarP
 type SmallSidebarItemProps = {
     Icon: ElementType
     title: string
-    onClick?: () => void
+    onNavigate: () => void
 }
 
-function SmallSidebarItem({ Icon, title, onClick }: SmallSidebarItemProps) {
+function SmallSidebarItem({ Icon, title, onNavigate }: SmallSidebarItemProps) {
     return (
         <Link
             to="/"
-            onClick={() => onClick?.()}
+            onClick={() => onNavigate()}
             className={twMerge(
                 buttonStyles({ variant: "ghost" }),
                 "py-4 px-1 flex flex-col items-center rounded-lg gap-1"
@@ -191,14 +193,14 @@ type LargeSidebarItemProps = {
     IconOrImgUrl: ElementType | string
     title: string
     isActive?: boolean
-    onClick?: () => void
+    onNavigate: () => void
 }
 
 function LargeSidebarItem({
     IconOrImgUrl,
     title,
     isActive = false,
-    onClick,
+    onNavigate,
 }: LargeSidebarItemProps) {
     const { close, isSmallOpen } = useSidebarContext()
 
@@ -206,7 +208,7 @@ function LargeSidebarItem({
         <Link
             to="/"
             onClick={() => {
-                onClick?.()
+                onNavigate()
                 if (isSmallOpen) close()
             }}
             className={twMerge(
