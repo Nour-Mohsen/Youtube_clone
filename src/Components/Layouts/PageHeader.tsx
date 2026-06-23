@@ -2,7 +2,7 @@ import { ArrowLeft, Bell, Menu, Mic, Search, Upload, User } from "lucide-react"
 import logo from "../../assets/logo.png"
 import { Button } from "../Button"
 import { FormEvent, useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useSidebarContext } from "../Sidebar/SidebarContext"
 
 type PageHeaderProps = {
@@ -11,6 +11,7 @@ type PageHeaderProps = {
 }
 
 export function PageHeader({ searchQuery, onSearch }: PageHeaderProps) {
+    const navigate = useNavigate()
     const [showFullWidthSearch, setShowFullWidthSearch] = useState(false)
     const [inputValue, setInputValue] = useState(searchQuery)
 
@@ -18,9 +19,18 @@ export function PageHeader({ searchQuery, onSearch }: PageHeaderProps) {
         setInputValue(searchQuery)
     }, [searchQuery])
 
+    const runSearch = () => {
+        const query = inputValue.trim()
+        if (!query) return
+
+        onSearch(query)
+        navigate('/')
+        setShowFullWidthSearch(false)
+    }
+
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault()
-        onSearch(inputValue.trim())
+        runSearch()
     }
 
     return (
@@ -50,7 +60,11 @@ export function PageHeader({ searchQuery, onSearch }: PageHeaderProps) {
                         onChange={(e) => setInputValue(e.target.value)}
                         className="rounded-l-full border border-secondary-border shadow-inner shadow-secondary py-1 px-4 text-lg w-full focus:border-blue-500 outline-none"
                     />
-                    <Button type="submit" className="py-2 px-4 rounded-r-full border-secondary-border border border-l-0 flex-shrink-0">
+                    <Button
+                        type="submit"
+                        aria-label="Search"
+                        className="py-2 px-4 rounded-r-full border-secondary-border border border-l-0 flex-shrink-0"
+                    >
                         <Search />
                     </Button>
                 </div>

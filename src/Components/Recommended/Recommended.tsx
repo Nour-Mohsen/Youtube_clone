@@ -1,35 +1,55 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { fetchRelatedVideos } from '../../api/youtube'
+import { fetchPopularVideos, fetchRelatedVideos, fetchVideoById } from '../../api/youtube'
 import { formatCount } from '../../utils/formatCount'
 import type { YouTubeVideoItem } from '../../types/youtube'
 
 type RecommendedProps = {
   categoryId?: string
+  videoId?: string
 }
 
-const Recommended = ({ categoryId }: RecommendedProps) => {
+const Recommended = ({ categoryId, videoId }: RecommendedProps) => {
   const [relatedVideos, setRelatedVideos] = useState<YouTubeVideoItem[]>([])
 
   useEffect(() => {
     const loadRelatedVideos = async () => {
-      if (!categoryId) return
       try {
-        const results = await fetchRelatedVideos(categoryId)
+        let category = categoryId
+
+        if ((!category || category === 'undefined') && videoId) {
+          const currentVideo = await fetchVideoById(videoId)
+          category = currentVideo?.snippet.categoryId
+        }
+
+        let results: YouTubeVideoItem[] = []
+        if (category && category !== 'undefined') {
+          results = await fetchRelatedVideos(category)
+        }
+
+        if (results.length === 0) {
+          results = await fetchPopularVideos(0)
+        }
+
+        if (videoId) {
+          results = results.filter((video) => video.id !== videoId)
+        }
+
         setRelatedVideos(results)
       } catch (error) {
         console.error('Failed to fetch recommended:', error)
+        setRelatedVideos([])
       }
     }
 
     loadRelatedVideos()
-  }, [categoryId])
+  }, [categoryId, videoId])
 
   return (
     <div className='w-full lg:w-[30%] flex flex-col gap-3'>
       {relatedVideos.map((video) => (
         <Link
-          to={`/video/${video.snippet.categoryId}/${video.id}`}
+          to={`/video/${video.snippet.categoryId || '0'}/${video.id}`}
           key={video.id}
           className='flex gap-2 cursor-pointer hover:bg-neutral-100 p-2 rounded-lg'
         >

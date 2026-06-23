@@ -18,7 +18,7 @@ export function VideoCard({ video }: VideoCardProps) {
     const { snippet, statistics, id } = video
 
     return (
-        <Link to={`/video/${snippet.categoryId}/${id}`} className='flex flex-col gap-2'>
+        <Link to={`/video/${snippet.categoryId || '0'}/${id}`} className='flex flex-col gap-2'>
             <img
                 src={getThumbnailUrl(snippet)}
                 className="rounded-xl aspect-video w-full object-cover"
